@@ -177,6 +177,9 @@ export default class ConfigurationService {
         ).join(', ')})`
       }
 
+      const network = env.get('ETHEREUM_NETWORK', 'mainnet')
+      const etherscanUrl = network === 'mainnet' ? 'etherscan.io' : 'ropsten.etherscan.io'
+
       const text = `Hello ${email},
 
 We detected ${ eventNumber > 1 ? 'new events' : 'a new event'} regarding the contract ${address} at block ${blockNumber}. The transaction that triggered these events has the hash ${transactionHash}. Here's a summary of the event${ eventNumber > 1 ? 's' : ''}:
@@ -193,8 +196,8 @@ The Colu Team
 ---
 If you would like to stop receiving notifications for this alarm, please visit ${unsubscribeUrl}
 `
-      const blockUrl = `<a href="https://etherscan.io/block/${blockNumber}">${blockNumber}</a>`
-      const transactionUrl = `<a href="https://etherscan.io/tx/${transactionHash}">${transactionHash}</a>`
+      const blockUrl = `<a href="https://${etherscanUrl}/block/${blockNumber}">${blockNumber}</a>`
+      const transactionUrl = `<a href="https://${etherscanUrl}/tx/${transactionHash}">${transactionHash}</a>`
       const html = `<p>Hello ${email},</p>
 
 <p>We detected ${ eventNumber > 1 ? 'new events' : 'a new event'} regarding the contract ${address} at block ${blockUrl}. The transaction that triggered these events has the hash ${transactionUrl}. Here's a summary of the event${ eventNumber > 1 ? 's' : ''}:</p>
